@@ -6,8 +6,119 @@
 
 
 body{
-  background-image: url(./assets/background.png);
+  background-image: url(./assets/backgroundtractor.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed; 
+
+  height: 100vh;
 }
+
+body > div {
+  height: 100%;
+}
+
+
+
+.login-container{
+  border-radius: 25px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.9));
+  color: white;
+  width: 35%;
+  min-width: 340px;
+  height:80%;
+  position: absolute;
+  right:0%;
+  top: 10%;
+  margin-inline: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-credential{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-login{
+  width: 100%;
+  padding: 2rem;
+  margin: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.navbar-login a{
+  margin-inline: 1rem;
+  text-decoration: none;
+  color: white;
+}
+
+.navbar-login li{
+  list-style-type: none;
+}
+
+.login-active-link{
+  border-bottom: 2px solid white;
+  padding-bottom: 0.5rem;
+} 
+
+.login-input-container{
+  background-color: white;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 25px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-input-container input{
+  height: 1.5rem;
+  border: none;
+  margin-inline-start: 0.5rem;
+  font-size: 1rem;
+}
+
+.login-input-container input:focus{
+  outline: none;
+}
+
+.login-container button{
+  height: 1.5rem;
+  width: 4rem;
+  border: none;
+  border-radius: 1rem;
+}
+
+.login-container button:active{
+  background-color: rgb(152, 143, 143);
+}
+
+.login-container button:hover{
+  background-color: rgb(201, 193, 193);
+}
+
+
+.login-icon{
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.container{
+  width: 100%;
+  height:100%;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+

@@ -1,0 +1,52 @@
+.navbar{
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content:center;
+    padding-block: 1rem;
+    background-color: wheat;
+}
+
+
+
+.profile{
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+
+.profile > div{
+height: 2.4rem;
+width: 2.4rem;
+
+margin-inline-end: 1rem;
+background-color:white;
+border-radius: 1.2rem;
+
+align-content: center;
+text-align: center;
+}
+
+.navbar li, a{
+list-style: none;
+text-decoration: none;
+color: black;
+}
+
+.navbar a{
+    display: block;      /* makes link take full width */
+    width: 100%;         /* optional but reinforces it */
+    padding: 10px 16px;  /* optional styling */
+    text-decoration: none;
+    color: black;
+}
+
+.navbar hr{
+    height: 2px;
+}
+  
+.active-link{
+    background-color: whitesmoke;
+}

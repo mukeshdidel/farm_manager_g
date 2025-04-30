@@ -2,7 +2,6 @@ create database farm;
 use farm;
 select * from users;
 
-
 create table users (
 	username varchar(50) primary key,
     password varchar(200)
@@ -41,8 +40,17 @@ CREATE TABLE user_stats (
     level int default 1,                             
     xp bigint default 0,                                
     money bigint default 100000,
-    no_of_plots int
+    no_of_plots int default 1
 );
+
+delimiter //
+create trigger after_insert_on_users after insert on users for each row
+begin 
+	insert into user_stats (username) values (new.username);
+end //
+delimiter ;
+
+select  * from user_stats;
 
 create table user_inventory ();
 

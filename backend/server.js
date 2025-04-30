@@ -29,7 +29,7 @@ app.post('/signup', async (req, res)=>{
         const {username, password} = req.body;
         const [user] = await pool.query('select * from users where username = ?',[username]);
         if(user[0]){
-            return res.status(201).json({messege: 'username alreay taken'})
+            return res.status(401).json({messege: 'username alreay taken'})
 
         }
         const hasshedPassword = await bcrypt.hash(password, 10);
@@ -43,29 +43,28 @@ app.post('/signup', async (req, res)=>{
 
 app.post('/login', async (req, res)=>{
     try{
-        const {username, password} = req.body;
+        const {username, password} = req.body;        
+        
         const [user] = await pool.query('select * from users where username = ?',[username]);
-
+        
         if(!user[0]){
-            return res.status(201).json({messege: 'username not found'});
+            return res.status(401).json({messege: 'username not found'});
         }
-
         const is_passMatch = await bcrypt.compare(password, user[0].password);
       
         if(!is_passMatch){
-            return res.status(201).json({messege: 'Incorrect password'});
+            return res.status(401).json({messege: 'Incorrect password'});
         }
-      
-        const token = jwt.sign(user[0], jwt_secret_key);
-        res.json({token, user, messege: 'Login Successful'});
-
+        const userPlayload = {
+            username: user[0].username
+        }
+        const token = jwt.sign(userPlayload, jwt_secret_key);
+        res.json({token, user: {username: user[0].username}, messege: 'Login Successful'});
     }catch(error){
         console.log(error)
         res.status(500).json(error);
     }
 })
-
-
 
 function authenticateToken(req, res, next){
     const authHeader = req.headers['authorization'];
@@ -82,8 +81,10 @@ function authenticateToken(req, res, next){
     })
 }
 
+app.get('/user-stats',authenticateToken , (req, res) => {
 
-
+    console.log("ok");
+})
 
 
 app.use((err,req,res,next) => {

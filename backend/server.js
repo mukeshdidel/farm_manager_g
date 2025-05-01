@@ -81,9 +81,18 @@ function authenticateToken(req, res, next){
     })
 }
 
-app.get('/user-stats',authenticateToken , (req, res) => {
+app.post('/user-stats',authenticateToken ,async (req, res) => {
+    try{
+        const user = req.body;
+        const [userStats] = await pool.query(`select * from user_stats where username = ?`,[user.username]);
+        res.status(201).json({userStats: userStats[0]});
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json(error);
+    }
 
-    console.log("ok");
+
 })
 
 

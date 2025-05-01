@@ -2,8 +2,8 @@ import {useState, useEffect} from 'react';
 import {api} from './Api/Data.jsx'
 import { toast, ToastContainer } from 'react-toastify';
 
-import userIcon from '../assets/icons/circle-user-solid.svg';
-import passIcon from '../assets/icons/lock-solid.svg'
+const userIcon = 'assets/icons/circle-user-solid.svg';
+const passIcon = 'assets/icons/lock-solid.svg'
 
 
 export default function Signup(){

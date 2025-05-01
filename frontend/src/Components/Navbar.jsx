@@ -24,9 +24,9 @@ export default function Navbar(){
                 <>  
                 <div className="navbar">
                     <ul >
-                        <li><NavLink to="/" className={({isActive})=> isActive ? "active-link" : "" }>home</NavLink></li><hr />
-                        <li><NavLink to="/about" className={({isActive})=> isActive ? "active-link" : "" }>about</NavLink></li><hr />
-                        <li><NavLink to="/contact" className={({isActive})=> isActive ? "active-link" : "" }>contact</NavLink></li><hr />
+                        <li><NavLink to="/" className={({isActive})=> isActive ? "active-link" : "" }>Dashboard</NavLink></li><hr />
+                        <li><NavLink to="/plots" className={({isActive})=> isActive ? "active-link" : "" }>Plots</NavLink></li><hr />
+                        <li><NavLink to="/shop" className={({isActive})=> isActive ? "active-link" : "" }>Shop</NavLink></li><hr />
                         <li><button onClick={handleLogout} className="logout-button">Logout</button></li>
                     </ul>
                     <div className='profile'>

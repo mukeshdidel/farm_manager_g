@@ -1,12 +1,4 @@
-.home{
-    grid-column: 2/9;
 
-    display:grid;
-    grid-template-columns: repeat(4,1fr);
-    grid-template-rows: repeat(5, 1fr);
-
-    background-color:  #333333;
-}
 
 .player-stats{
     grid-row:1/2;
@@ -50,16 +42,22 @@
 .plots{
     padding: 1rem;
 
-    grid-column: 1/5;
-    grid-row: 2/6;
+    grid-column: 2/9;
+
 
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 164px);
     gap: 1rem;
 }
 
 .plot{
-    border: 1px solid  red;
+    border: 1px solid  white;
+    border-radius: 10px;
+}
+
+.plot img{
+    width: 75%;
+    height: 162px;
     border-radius: 10px;
 }

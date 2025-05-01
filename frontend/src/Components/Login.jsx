@@ -4,8 +4,11 @@ import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import {useAuth} from './AuthContext.jsx';
-import userIcon from '../assets/icons/circle-user-solid.svg';
-import passIcon from '../assets/icons/lock-solid.svg'
+
+
+
+const userIcon = 'assets/icons/circle-user-solid.svg';
+const passIcon = 'assets/icons/lock-solid.svg'
 
 
 export default function Login(){

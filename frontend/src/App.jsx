@@ -11,32 +11,13 @@ import PrivateRoute from './Components/PrivateRoute';
 import PublicRoute from './Components/PublicRoute'; 
 import { useAuth } from './Components/AuthContext';
 
-import Home from './Components/Home'
+import Dashboard from './Components/Dashboard';
+import Plots from './Components/Plots'
+import Shop from './Components/Shop'
+
 
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <PrivateRoute>
-        <div className='container'>
-          <Navbar />
-          <Home />
-        </div>
-      </PrivateRoute>
-
-
-    ),
-    /* children: [{
-        path:'courses',
-        element:  
-        },
-        {
-        path:'tests',
-        element: 
-        }
-    ]*/ // we can create these nested paths as well note : dont use '/' in paths of childrens // also use <Outlet/> in your Home component
-  },
   {
     path: "/login",
     element: (
@@ -59,6 +40,50 @@ const router = createBrowserRouter([
         </div>
       </PublicRoute>
 
+    ),
+  },  
+  {
+    path: "/",
+    element: (
+      <PrivateRoute>
+        <div className='container'>
+          <Navbar />
+          <Dashboard />
+        </div>
+      </PrivateRoute>
+
+
+    ),
+    /* children: [{
+        path:'courses',
+        element:  
+        },
+        {
+        path:'tests',
+        element: 
+        }
+    ]*/ // we can create these nested paths as well note : dont use '/' in paths of childrens // also use <Outlet/> in your Home component
+  },
+  {
+    path: '/plots',
+    element : (
+      <PrivateRoute>
+        <div className='container'>
+          <Navbar/>
+          <Plots/>
+        </div>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/shop',
+    element : (
+      <PrivateRoute>
+        <div className='container'>
+          <Navbar/>
+          <Shop/>
+        </div>
+      </PrivateRoute>
     ),
   },
   {

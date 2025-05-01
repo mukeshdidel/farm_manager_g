@@ -81,20 +81,47 @@ function authenticateToken(req, res, next){
     })
 }
 
-app.post('/user-stats',authenticateToken ,async (req, res) => {
+app.post('/user-info',authenticateToken ,async (req, res) => {
     try{
         const user = req.body;
-        const [userStats] = await pool.query(`select * from user_stats where username = ?`,[user.username]);
-        res.status(201).json({userStats: userStats[0]});
+        const [userInfo] = await pool.query(`select * from user_stats where username = ?`,[user.username]);
+        res.status(201).json({userStats: userInfo[0]});
     }
     catch(error){
         console.log(error)
-        res.status(500).json(error);
+        res.status(500).json({error});
     }
-
-
 })
 
+app.post('/shop',authenticateToken ,async (req, res)=>{
+    try{
+        const [seedShop] = await pool.query('select * from seeds');
+        res.status(201).json(seedShop);
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({error})
+    }
+})
+
+app.post('/purchase',authenticateToken ,async (req, res)=>{
+    try{
+        const {cart, user, totalCost} = req.body;
+        cart.forEach( async (item) => {
+           await pool.query(`insert into user_inventory (username, item_name, quantity)
+                            values (?, ?, ?)
+                            on duplicate key update quantity = quantity + ?;
+                            `,[user.username, item.name, item.quantity, item.quantity]) 
+        });
+        await pool.query(`update user_stats set money = money - ? where username = ?`,[totalCost, user.username]);
+        res.status(201).json({messege: 'purchase successful'})
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({messege: 'purchase unsuccessful'})
+    }
+
+})
 
 app.use((err,req,res,next) => {
     console.error(err.stack)

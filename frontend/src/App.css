@@ -120,5 +120,7 @@ body > div {
   height:100%;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 100vh;
+  background-color:  #333333;
 }
 

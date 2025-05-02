@@ -20,6 +20,8 @@ export default function Dashboard(){
         }
     },[user, token])
 
+    
+
     return (
         <>
             <div className='player-stats'>

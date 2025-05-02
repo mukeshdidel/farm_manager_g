@@ -25,7 +25,8 @@
     min-width: 8rem;
     max-width: 8rem;
     height: 6.9rem;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .seed-shop > div > div{

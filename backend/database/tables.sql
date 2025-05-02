@@ -2,6 +2,11 @@ create database farm;
 use farm;
 select * from users;
 select * from user_stats;
+select * from user_inventory;
+select * from user_crops;
+select * from user_farms;
+select * from crops;
+
 
 create table users (
 	username varchar(50) primary key,
@@ -41,14 +46,14 @@ create table crops (
 
 insert into crops values ('wheat', 100000, 'rabi', 17, 'wheat.webp', 'wheatCrop.jpg','Wheat Kernal'),
 						 ('rice', 160000, 'kharif', 15, 'rice.jpg', 'riceCrop.jpg','rice seed'),
-                         ('jowar', 104000, 'kharif', 14, 'jowar.jpg','jowar.webp','sorghum'),
+                         ('jowar', 104000, 'kharif', 14, 'jowar.jpg','jowarCrop.webp','sorghum'),
                          ('bajra',84000,'kharif',11,'bajra.jpeg', 'bajraCrop.webp','pearl millet'),
                          ('green gram',189000,'kharif',10,'greenGram.jpeg','greenGramCrop.webp','moong bean'),
                          ('cotton',240000,'kharif',21,'cotton.jpeg','cottonCrop.jpg','cotton seed'),
-                         ('cumin',254000,'rabi',17,'cumin.jpg', 'cumin.webp','cumin seed'),
-                         ('cluster',159000, 'kharif',13, 'cluster.webp','clusterSeed.webp', 'cluster bean'),
+                         ('cumin',254000,'rabi',17,'cumin.jpg', 'cuminCrop.webp','cumin seed'),
+                         ('cluster',159000, 'kharif',13, 'cluster.webp','clusterCrop.webp', 'cluster bean'),
                          ('sesame',200000,'kharif',13,'sesame.jpeg','sesameCrop.jpeg','sesame seed'),
-                         ('moath',80000,'kharif',9,'moth.jpeg','moth.jpg','moath bean' );
+                         ('moath',80000,'kharif',9,'moth.jpeg','mothCrop.jpg','moath bean' );
 
 
 
@@ -80,12 +85,9 @@ CREATE TABLE user_stats (
     no_of_plots int default 1
 );
 
-delimiter //
-create trigger after_insert_on_users after insert on users for each row
-begin 
-	insert into user_stats (username) values (new.username);
-end //
-delimiter ;
+
+
+
 
 
 create table user_inventory (
@@ -94,11 +96,32 @@ create table user_inventory (
     quantity int,
     unique(username, item_name)
 );
- drop table user_inventory;
 
-create table user_crops ();
 
-create table user_farms();
+create table user_crops (
+	username varchar(50), foreign key (username) references users(username),
+    crop_name varchar(40), foreign key (crop_name) references crops(crop_name),
+    quantity double
+);
+
+
+
+create table user_farms (
+    username varchar(50),
+    plot_no int check (plot_no between 1 and 16),
+    crop_name varchar(40) default null,
+    cultivation_date datetime default null,
+    last_watered datetime default null,
+    status enum('empty', 'growing', 'harvested', 'withered') default 'empty',
+    yield_collected boolean default true,
+    price_deduct double default 0,
+    foreign key (username) references users(username),
+    foreign key (crop_name) references crops(crop_name),
+    primary key (username, plot_no)
+);
+
+
+select * from user_farms;
 
 create table user_friends();
 

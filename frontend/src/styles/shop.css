@@ -75,6 +75,7 @@
 .purchase-button-div{
     width: 100%;
     text-align: center;
+    
 }
 
 .purchase-button{
@@ -88,6 +89,31 @@
 }
 
 .purchase-button:hover{
+    background-color: darkgreen;
+    color:white;
+    cursor: pointer;
+    
+}
+
+
+
+.purchase-plot{
+    text-align: center;
+    background-color:  #624d4d;
+    padding: 1rem;
+}
+
+.purchase-plot button{
+    background-color: greenyellow;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    width: 5rem;
+    height: 2rem;
+    margin: 1rem;
+}
+
+.purchase-plot button:hover{
     background-color: darkgreen;
     color:white;
     cursor: pointer;

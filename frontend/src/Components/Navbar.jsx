@@ -5,9 +5,6 @@ import '../styles/navbar.css';
 export default function Navbar(){
     const { token, setToken, user, setUser} = useAuth();
     const navigate = useNavigate();
-    console.log("navbar",user)
-    console.log(user?.username)
-    console.log(user?.username?.[0]?.toUpperCase());
     const handleLogout = () => {
 
         localStorage.removeItem('auth_token');

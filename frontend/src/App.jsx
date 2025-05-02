@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './App.css'
 import {jwtDecode} from "jwt-decode";
+import {api} from './Components/Api/Data'
 
 
 import Navbar from './Components/Navbar';
@@ -95,7 +96,7 @@ const router = createBrowserRouter([
 
 export default function App() {
 
-  const {setUser} = useAuth();
+  const {token, user, setUser, setUserInfo} = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
@@ -110,6 +111,15 @@ export default function App() {
     }
   }, []);
   
+  useEffect(()=>{
+    if(user && token){
+        async function fetch(){ 
+          const response = await api.post('/user-info',user, {headers: {Authorization: `Bearer ${token}`}});
+          setUserInfo(response.data);
+        }
+        fetch();            
+    }
+  },[user, token])
 
   return (
     <>

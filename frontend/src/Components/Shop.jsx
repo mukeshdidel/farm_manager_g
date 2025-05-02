@@ -4,17 +4,18 @@ import { useAuth} from './AuthContext';
 import '../styles/shop.css'
 import { toast, ToastContainer } from 'react-toastify';
 
+
 const imgDer = 'assets/farmassets/'
 export default function Shop(){
-    const {user, token} = useAuth();
+    const {user, token, userInfo, setUserInfo} = useAuth();
     const [seedShop, setSeedShop] = useState([]);
     const [cart, setCart] = useState([]);
     const [totalCost, setTotalCost] = useState(0);
+
     useEffect(()=>{
         if(user && token){
             async function fetch(){
                 const response = await api.post('/shop', user, {headers: { Authorization: `Bearer ${token}` }});
-                console.log(response.data);
                 setSeedShop(response.data);
             }
             fetch();
@@ -57,15 +58,48 @@ export default function Shop(){
 
     async function handlePurchase(){
         try{
+
+            if(totalCost > userInfo.userStat.money){
+                toast.error("you dont have enough money")
+                return;
+            }
+
             const response = await api.post('/purchase',{cart,user, totalCost} , {headers: { Authorization: `Bearer ${token}`}});
             setCart([])
+            setUserInfo((prev) => ({
+                ...prev,
+                userStat: {
+                    ...prev.userStat,
+                    money: prev.userStat.money - totalCost, 
+                },
+            }));
             toast.success(response?.data?.messege);            
         }
         catch(error){
             console.log(error);
             toast.error(error.response.data.messege)
         }
+    }
 
+    async function handlePurchasePlot(){
+        try{
+            if(userInfo.userStat.money < 5000000 ){
+                toast.error("not enough money");
+                return;                
+            }
+
+            if(userInfo.userStat.no_of_plots >= 16){
+                toast.error("plots not available");
+                return;
+            }
+
+            const response = await api.post('/purchase-plot', {userInfo}, {headers: { Authorization: `Bearer ${token}`}});
+            toast.success("purchase sussess"); 
+        }
+        catch(error){
+            console.log(error);
+            toast.error(error?.response?.data?.messege)
+        }
     }
 
     return (
@@ -76,7 +110,7 @@ export default function Shop(){
             <h2 style={{textAlign: 'center', color: 'white', width: '100%'}}>Cart</h2>
                 {   
                     cart.length === 0 ? <h1 style={{color: 'white', textAlign: 'center', width: '100%' }}>cart is empty</h1> : 
-                    <h2 style={{textAlign: 'center', color: 'white', width: '100%'}}>total: {totalCost}</h2>
+                    <h2 style={{textAlign: 'center', color: 'white', width: '100%'}}>total: {totalCost}   balance: {userInfo?.userStat?.money}</h2>
                 }
                 {  
                     cart?.map(item => {
@@ -116,6 +150,11 @@ export default function Shop(){
                 } )}
                 
             </div>
+            <div  className="purchase-plot">
+            <h2 style={{textAlign: 'center', color: 'white', width: '100%'}}>Purchase Plot for just ₹ 50,00,000/-</h2>
+                <button onClick={handlePurchasePlot}>purchase</button>
+            </div>
+            <ToastContainer position="top-right" autoClose={3000} />
         </div>
         </>
     );

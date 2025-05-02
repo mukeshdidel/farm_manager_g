@@ -6,7 +6,9 @@ select * from user_inventory;
 select * from user_crops;
 select * from user_farms;
 select * from crops;
+select * from items;
 
+update user_farms set crop_name = null, cultivation_date = null, status = 'empty', yield_collected = 1 where username = 'mukesh' and plot_no = 3; 
 
 create table users (
 	username varchar(50) primary key,

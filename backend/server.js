@@ -84,10 +84,25 @@ function authenticateToken(req, res, next){
 app.post('/user-info',authenticateToken ,async (req, res) => {
     try{
         const user = req.body;
-        const [userInfo] = await pool.query(`select user_inventory.username, user_inventory.item_name, user_inventory.quantity, crops.price, crops.season, crops.crop_name 
+        const [userInventory] = await pool.query(`select user_inventory.username, user_inventory.item_name, user_inventory.quantity, crops.price, crops.season, crops.crop_name 
                                             from user_inventory 
                                             join crops on user_inventory.item_name = crops.seed_name
                                             where user_inventory.username = ?;`,[user.username]);
+        const [userStat] = await pool.query(`select * from user_stats where username = ?`,[user.username]);
+        
+        const userInfo =  {userInventory, userStat: userStat[0]}
+        res.status(201).json(userInfo);
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({error});
+    }
+})
+
+
+app.post('/user-farms',authenticateToken ,async (req, res) => {
+    try{
+        const user = req.body;
 
         const [userFarmInfo] =await pool.query(`select u.username, u.password, uf.plot_no, uf.crop_name, uf.cultivation_date, uf.last_watered, uf.status, uf.yield_collected, c.price, c.season, c.growth_time_weeks, c.crop_url, c.field_url, c.seed_name,
                                                     c.growth_time_weeks * 7 as total_growth_days,
@@ -97,7 +112,8 @@ app.post('/user-info',authenticateToken ,async (req, res) => {
                                                 from users u join user_farms uf on u.username = uf.username left join  crops c on uf.crop_name = c.crop_name
                                                 where  u.username = ?
                                                 order by  uf.plot_no asc;`,[user.username]);
-        res.status(201).json({userInfo: userInfo, userFarmInfo: userFarmInfo});
+        
+        res.status(201).json(userFarmInfo);
     }
     catch(error){
         console.log(error)
@@ -162,7 +178,24 @@ app.post('/purchase',authenticateToken ,async (req, res)=>{
         console.log(error);
         res.status(500).json({messege: 'purchase unsuccessful'})
     }
+})
 
+app.post('/purchase-plot',authenticateToken ,async (req, res)=>{
+    try{
+        const {userInfo} = req.body;
+        if(userInfo.userStat.money < 5000000 && userInfo.userStat.no_of_plots >= 16){
+            return res.status(500).json({messege: "pruchase unsuccessful"});
+        }
+        await pool.query('update user_stats set no_of_plots = ?, money = money - 5000000 where username = ?',[userInfo.userStat.no_of_plots +1, userInfo.userStat.username]);
+
+        await pool.query('insert into user_farms values (?,?,null,null,null,"empty",1,0)',[userInfo.userStat.username, userInfo.userStat.no_of_plots +1]);
+
+        res.status(201).json({messege: "purchase successful"});
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({messege: "purchase unsuccessfull"});
+    }
 })
 
 app.use((err,req,res,next) => {

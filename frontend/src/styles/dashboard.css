@@ -1,0 +1,43 @@
+.dashboard{
+    grid-column: 2/9;
+}
+
+
+
+
+.player-stats{
+    grid-row:1/2;
+    grid-column: 1/5;
+
+    background-color: #2C3E50;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.player-stats > div{
+    width: 16.66%;
+    height: 50%;
+    
+
+    background-color: #2C3E50;
+
+    border: 1px solid white;
+    border-radius: 10px ;
+    padding: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items:center ;
+}
+
+.player-stats > div h3{
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.player-stats > div h4{
+    color: rgba(255, 255, 255, 0.607);
+    font-family: 'Courier New', Courier, monospace;
+}

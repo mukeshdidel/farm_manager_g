@@ -140,7 +140,6 @@ app.post('/cultivate', authenticateToken ,async (req, res)=>{
 app.post('/water-plot', authenticateToken ,async (req, res)=>{
     try{
         const {plot_no, user} = req.body;
-        console.log(plot_no, user);
         await pool.query('call water_crop(?, ?);',[user.username, plot_no]);
         res.status(201).json({messege: 'water successfuul'})
     }
